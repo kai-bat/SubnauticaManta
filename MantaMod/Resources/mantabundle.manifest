@@ -1,0 +1,43 @@
+ManifestFileVersion: 0
+CRC: 4180734134
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9cc0a5a8aacb429af5e470abce6a8cef
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f5a9e8d3b2541e1effed9ba58f3ef3db
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+Assets:
+- Assets/Manta/Manta_Textures/Materials/MantaFIN_Material.008_AlbedoTransparency.mat
+- Assets/Manta/Manta_Textures/Materials/MantaFIN_Material.004_AlbedoTransparency.mat
+- Assets/Manta/Manta_Textures/MantaFIN_Material.004_AlbedoTransparency.png
+- Assets/Manta/Manta_Textures/MantaFIN_Material.008_Normal.png
+- Assets/Manta/Manta_Textures/MantaFIN_Material.008_AlbedoTransparency.png
+- Assets/Manta/MantaFIN.fbx
+- Assets/Manta/Manta_Textures/MantaFIN_Material.004_Emission.png
+- Assets/MantaPrefab.prefab
+- Assets/Manta/Manta_Textures/MantaFIN_Material.008_MetallicSmoothness.png
+- Assets/Manta/Manta_Textures/MantaFIN_Material.004_Normal.png
+- Assets/Manta/Manta_Textures/MantaFIN_Material.004_MetallicSmoothness.png
+Dependencies:
+- C:/Users/Kyle McGoldrick/Documents/Subnautica Rifle Mod/Assets/AssetBundles/alienrifle
