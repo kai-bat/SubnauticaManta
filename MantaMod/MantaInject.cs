@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using SMLHelper;
-using SMLHelper.Patchers;
+using SMLHelper.V2;
+using SMLHelper.V2.Patchers;
+using SMLHelper.V2.MonoBehaviours;
+using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
+using SMLHelper.V2.Handlers;
+using SMLHelper.V2.Options;
+using SMLHelper.V2.Utility;
 using Harmony;
 using System.Reflection;
 using UWE;
@@ -19,13 +26,12 @@ namespace MantaMod
         {
             try
             {
-                AssetBundle bundle = AssetBundle.LoadFromFile("./QMods/Manta/mantabundle");
+                bundle = AssetBundle.LoadFromFile("./QMods/Manta/mantabundle.assets");
 
                 GameObject manta = new GameObject("mantaconsole");
                 GameObject.DontDestroyOnLoad(manta);
 
                 MantaConsole mant = manta.AddComponent<MantaConsole>();
-
                 mant.obj = bundle.LoadAsset<GameObject>("MantaPrefab");
 
                 foreach(MeshRenderer rend in mant.obj.GetComponentsInChildren<MeshRenderer>())
@@ -34,59 +40,30 @@ namespace MantaMod
                 }
 
                 //make the model
-                mantaTech = TechTypePatcher.AddTechType("MantaModel", "Miniature Manta Submarine", "A model of the concept Manta Sub");
+                mantaTech = TechTypeHandler.AddTechType("MantaModel", "Miniature Manta Submarine", "A model of the concept Manta Submarine");
 
-                GameObject model = bundle.LoadAsset<GameObject>("MantaPrefab");
+                
+                MantaPrefab prefab = new MantaPrefab("MantaModel", "Submarine/Build/MantaModel", mantaTech);
+                PrefabHandler.RegisterPrefab(prefab);
 
-                foreach (MeshRenderer rend in model.GetComponentsInChildren<MeshRenderer>())
+                TechData helper = new TechData()
                 {
-                    rend.material.shader = Shader.Find("MarmosetUBER");
-                }
-                Utility.AddBasicComponents(ref model, "MantaModel");
-                model.transform.localScale *= 0.05f;
-
-                Constructable cons = model.AddComponent<Constructable>();
-                cons.allowedInBase = true;
-                cons.allowedInSub = true;
-                cons.allowedOnWall = false;
-                cons.allowedOnGround = true;
-                cons.allowedOnConstructables = true;
-                cons.allowedOnCeiling = false;
-                cons.allowedOutside = true;
-                cons.deconstructionAllowed = true;
-                cons.model = model.transform.GetChild(0).gameObject;
-                cons.techType = mantaTech;
-
-                model.AddComponent<ConstructableBounds>();
-                foreach(MeshCollider col in model.GetComponentsInChildren<MeshCollider>())
-                {
-                    col.convex = true;
-                    col.inflateMesh = true;
-                }
-
-                model.AddComponent<BoxCollider>();
-                model.AddComponent<Rigidbody>();
-                model.AddComponent<TechTag>().type = mantaTech;
-
-                CustomPrefabHandler.customPrefabs.Add(new CustomPrefab("MantaModel", "Submarine/Build/MantaModel", model, mantaTech));
-
-                TechDataHelper helper = new TechDataHelper()
-                {
-                    _ingredients = new List<IngredientHelper>()
+                    Ingredients = new List<Ingredient>()
                     {
-                        new IngredientHelper(TechType.Titanium, 1)
-                    },
-                    _techType = mantaTech,
-                    _craftAmount = 1
+                        new Ingredient(TechType.Titanium, 2)
+                    }
                 };
-                CraftDataPatcher.customTechData.Add(mantaTech, helper);
+                CraftDataHandler.SetTechData(mantaTech, helper);
 
-                CraftDataPatcher.customBuildables.Add(mantaTech);
-                CraftDataPatcher.AddToCustomGroup(TechGroup.InteriorModules, TechCategory.InteriorModule, mantaTech);
+                CraftDataHandler.AddBuildable(mantaTech);
+                CraftDataHandler.AddToGroup(TechGroup.InteriorModules, TechCategory.InteriorModule, mantaTech);
             }
             catch (Exception e)
             {
-                Console.WriteLine("[MantaMod] Mod Loading Failed: " + e.StackTrace);
+                Console.WriteLine("[MantaMod] Mod Loading Failed: "+e.Message + e.StackTrace);
+                StackTrace st = new StackTrace(e, true);
+                int line = st.GetFrame(st.FrameCount-1).GetFileLineNumber();
+                Console.WriteLine("[MantaMod] Error occurred in line: " + line);
             }
         }
 
@@ -111,5 +88,6 @@ namespace MantaMod
         }
 
         public static TechType mantaTech;
+        public static AssetBundle bundle;
     }
 }
