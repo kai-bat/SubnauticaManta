@@ -21,3 +21,4 @@ C:\Users\Kyle McGoldrick\Downloads\Github\SubnauticaMantaMod\MantaMod\obj\Debug\
 C:\Users\Kyle McGoldrick\Downloads\Github\SubnauticaMantaMod\MantaMod\obj\Debug\MantaMod.dll
 C:\Users\Kyle McGoldrick\Downloads\Github\SubnauticaMantaMod\MantaMod\obj\Debug\MantaMod.pdb
 C:\Users\Kyle McGoldrick\Downloads\Github\SubnauticaMantaMod\MantaMod\bin\Debug\SMLHelper.xml
+C:\Users\Kyle McGoldrick\Downloads\Github\SubnauticaMantaMod\MantaMod\bin\Debug\0Harmony.pdb

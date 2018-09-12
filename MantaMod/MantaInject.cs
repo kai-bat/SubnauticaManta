@@ -5,14 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using SMLHelper.V2;
-using SMLHelper.V2.Patchers;
-using SMLHelper.V2.MonoBehaviours;
-using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
-using SMLHelper.V2.Options;
-using SMLHelper.V2.Utility;
 using Harmony;
 using System.Reflection;
 using UWE;
@@ -29,7 +23,7 @@ namespace MantaMod
                 bundle = AssetBundle.LoadFromFile("./QMods/Manta/mantabundle.assets");
 
                 GameObject manta = new GameObject("mantaconsole");
-                GameObject.DontDestroyOnLoad(manta);
+                Object.DontDestroyOnLoad(manta);
 
                 MantaConsole mant = manta.AddComponent<MantaConsole>();
                 mant.obj = bundle.LoadAsset<GameObject>("MantaPrefab");
@@ -41,8 +35,6 @@ namespace MantaMod
 
                 //make the model
                 mantaTech = TechTypeHandler.AddTechType("MantaModel", "Miniature Manta Submarine", "A model of the concept Manta Submarine");
-
-                
                 MantaPrefab prefab = new MantaPrefab("MantaModel", "Submarine/Build/MantaModel", mantaTech);
                 PrefabHandler.RegisterPrefab(prefab);
 
@@ -54,7 +46,7 @@ namespace MantaMod
                     }
                 };
                 CraftDataHandler.SetTechData(mantaTech, helper);
-
+                
                 CraftDataHandler.AddBuildable(mantaTech);
                 CraftDataHandler.AddToGroup(TechGroup.InteriorModules, TechCategory.InteriorModule, mantaTech);
             }
@@ -69,7 +61,7 @@ namespace MantaMod
 
         static T CopyComponent<T>(T original, ref GameObject destination) where T : Component
         {
-            System.Type type = original.GetType();
+            Type type = original.GetType();
             var dst = destination.GetComponent(type) as T;
             if (!dst) dst = destination.AddComponent(type) as T;
             var fields = type.GetFields();
