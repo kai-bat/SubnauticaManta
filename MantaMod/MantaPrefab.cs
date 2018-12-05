@@ -26,7 +26,7 @@ namespace MantaMod
             GameObject model = null;
             try
             {
-                model = Utils.SpawnPrefabAt(MantaInject.bundle.LoadAsset<GameObject>("MantaPrefab"), null, Vector3.one * 100000f);
+                model = Utils.SpawnPrefabAt(MantaInject.bundle.LoadAsset<GameObject>("MantaPrefab.prefab"), null, Vector3.one * 100000f);
 
                 foreach (MeshRenderer rend in model.GetComponentsInChildren<MeshRenderer>())
                 {

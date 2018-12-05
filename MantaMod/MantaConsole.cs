@@ -29,33 +29,31 @@ namespace MantaMod
             Vector3 pos = Player.main.transform.position + (Player.main.camRoot.GetAimingTransform().forward * 30f);
 
             GameObject clone = Utils.SpawnPrefabAt(obj, null, pos);
-
-            SMLHelper.Utility.AddBasicComponents(ref clone, "MantaSubmarine");
-
-            clone.GetComponent<Rigidbody>().angularDrag = 1f;
-            clone.GetComponent<Rigidbody>().mass = 5000f;
-
-            WorldForces forces = clone.GetComponent<WorldForces>();
-            if(!forces)
-            {
-                forces = clone.AddComponent<WorldForces>();
-            }
-            forces.underwaterDrag = 1f;
-            forces.underwaterGravity = -9.8f;
-
-            MeshCollider collider = clone.transform.GetChild(0).GetComponent<MeshCollider>();
-            if(!collider)
-            {
-                collider = clone.transform.GetChild(0).gameObject.AddComponent<MeshCollider>();
-            }
-            collider.convex = true;
-            collider.inflateMesh = true;
         }
         
         void RegisterCommands(Scene scene, LoadSceneMode mode)
         {
             DevConsole.RegisterConsoleCommand(this, "manta");
             Console.WriteLine("[MantaMod] Created and registered new 'manta' command object");
+
+            obj = Utils.SpawnPrefabAt(MantaInject.bundle.LoadAsset<GameObject>("MantaPrefab.prefab"), null, Vector3.one * 10000f);
+
+            var largeworld = obj.AddOrGetComponent<LargeWorldEntity>();
+
+            largeworld.cellLevel = LargeWorldEntity.CellLevel.VeryFar;
+
+            var rb = obj.AddOrGetComponent<Rigidbody>();
+            rb.angularDrag = 1f;
+            rb.mass = 100000f;
+            obj.transform.localScale *= 3f;
+
+            var sky = obj.AddOrGetComponent<SkyApplier>();
+            sky.anchorSky = Skies.Auto;
+            sky.renderers = GetComponentsInChildren<Renderer>();
+
+            WorldForces forces = obj.AddOrGetComponent<WorldForces>();
+            forces.underwaterDrag = 1f;
+            forces.underwaterGravity = -9.8f;
         }
         public GameObject obj;
         public static MantaConsole main;

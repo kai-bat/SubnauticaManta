@@ -20,13 +20,12 @@ namespace MantaMod
         {
             try
             {
-                bundle = AssetBundle.LoadFromFile("./QMods/Manta/mantabundle.assets");
+                bundle = AssetBundle.LoadFromFile("./QMods/Manta/mantabundle");
 
                 GameObject manta = new GameObject("mantaconsole");
                 Object.DontDestroyOnLoad(manta);
 
                 MantaConsole mant = manta.AddComponent<MantaConsole>();
-                mant.obj = bundle.LoadAsset<GameObject>("MantaPrefab");
 
                 foreach(MeshRenderer rend in mant.obj.GetComponentsInChildren<MeshRenderer>())
                 {
@@ -81,5 +80,17 @@ namespace MantaMod
 
         public static TechType mantaTech;
         public static AssetBundle bundle;
+
+        public static T AddOrGetComponent<T>(this GameObject obj) where T : Component
+        {
+            if(obj.GetComponent<T>() == null)
+            {
+                return obj.AddComponent<T>();
+            }
+            else
+            {
+                return obj.GetComponent<T>();
+            }
+        }
     }
 }
